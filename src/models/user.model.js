@@ -1,4 +1,4 @@
-impoprt mongoose, { Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
@@ -34,7 +34,7 @@ const userSchema = new Schema(
         },
         watchHistory: [
             {
-                type: Schema.Types.ObjectId
+                type: Schema.Types.ObjectId,
                 ref: "Video"
             }
         ],
@@ -43,7 +43,7 @@ const userSchema = new Schema(
             required: [true, "Password is required"]
         },
         refreshToken: {
-            type: string
+            type: String
         }
     },
     {
@@ -52,10 +52,10 @@ const userSchema = new Schema(
 )
 
 userSchema.pre("save", async function (error, req, res, next) {
-    if(!this.isModified("password")) return next();
+    if(!this.isModified("password")) return next;
 
     this.password = await bcrypt.hash(this.password, 10)
-    next()
+    next
 })
 
 userSchema.methods.isPasswordCorrect = async function (password) {
